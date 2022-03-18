@@ -17,6 +17,7 @@ interface SidebarProps {
 const Sidebar = ({ sdk, cma }: SidebarProps) => {
   const [webhooks, setWebhooks] = useState<WebHooks[]>([]);
   const [selectedWebhooks, setSelectedWebhooks] = useState<WebHooks[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -36,6 +37,8 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
   };
 
   const handleTriggerBuild = () => {
+    setIsLoading(true);
+
     return Promise.all(
       selectedWebhooks.map(({ url }) => {
         return fetch(url, { method: "POST" }).then((resp) => {
@@ -46,6 +49,7 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
           });
 
           setSelectedWebhooks([]);
+          setIsLoading(false);
         });
       })
     );
@@ -60,14 +64,14 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
   useEffect(() => {
     (async () => {
       cma
-        .getSpace("5fjjg8tiriqf")
+        .getSpace(sdk.ids.space)
         .then((space) => space.getWebhooks())
         .then((response) => {
           setWebhooks(response.items);
         })
         .catch(console.error);
     })();
-  }, [cma]);
+  }, [cma, sdk]);
 
   return (
     <>
@@ -89,10 +93,11 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
       <Button
         variant="positive"
         isFullWidth
-        isDisabled={!selectedWebhooks.length}
+        isDisabled={!selectedWebhooks.length || isLoading}
         onClick={handleTriggerBuild}
+        isLoading={isLoading}
       >
-        Build {selectedWebhooks.length} sites
+        Build: {selectedWebhooks.length} selected
       </Button>
     </>
   );

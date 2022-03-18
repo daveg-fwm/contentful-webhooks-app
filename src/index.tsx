@@ -27,6 +27,8 @@ if (process.env.NODE_ENV === "development" && window.self === window.top) {
     // Creating a CMA client allows you to use the contentful-management library
     // within your app. See the contentful-management documentation at https://contentful.github.io/contentful-management.js/contentful-management/latest/
     // to learn what is possible.
+
+    // I couldn't get the webhooks using this 'PlainClientApi'
     // const cma = createClient(
     //   { apiAdapter: sdk.cmaAdapter },
     //   {
@@ -38,10 +40,12 @@ if (process.env.NODE_ENV === "development" && window.self === window.top) {
     //   }
     // );
 
+    console.log(sdk);
+
     const cma = createClient({
       // This is the access token for this space. Normally you get the token in the Contentful web app
-      accessToken: "Yt7Ll-9AUcOTNi9-JZWAWNSmYNYtXpEoL7DNk4WX4Xk",
-      space: "5fjjg8tiriqf",
+      accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN as string,
+      space: sdk.ids.space,
     });
 
     // All possible locations for your app
