@@ -1,14 +1,14 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { AppExtensionSDK } from '@contentful/app-sdk';
-import { PlainClientAPI } from 'contentful-management';
-import { Heading, Form, Paragraph, Flex } from '@contentful/f36-components';
-import { css } from '@emotion/css';
+import React, { useCallback, useState, useEffect } from "react";
+import { AppExtensionSDK } from "@contentful/app-sdk";
+import { ClientAPI } from "contentful-management";
+import { Heading, Form, Paragraph, Flex } from "@contentful/f36-components";
+import { css } from "@emotion/css";
 
 export interface AppInstallationParameters {}
 
 interface ConfigScreenProps {
   sdk: AppExtensionSDK;
-  cma: PlainClientAPI;
+  cma: ClientAPI;
 }
 
 const ConfigScreen = (props: ConfigScreenProps) => {
@@ -57,10 +57,15 @@ const ConfigScreen = (props: ConfigScreenProps) => {
   }, [props.sdk]);
 
   return (
-    <Flex flexDirection="column" className={css({ margin: '80px', maxWidth: '800px' })}>
+    <Flex
+      flexDirection="column"
+      className={css({ margin: "80px", maxWidth: "800px" })}
+    >
       <Form>
         <Heading>App Config</Heading>
-        <Paragraph>Welcome to your contentful app. This is your config page.</Paragraph>
+        <Paragraph>
+          Welcome to your contentful app. This is your config page.
+        </Paragraph>
       </Form>
     </Flex>
   );
