@@ -77,7 +77,7 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
     <>
       <FormControl as="fieldset">
         <Paragraph>Select the webhooks to trigger builds:</Paragraph>
-        <Checkbox.Group name="checkbox-options">
+        <Checkbox.Group>
           {webhooks.map((webhook) => (
             <Checkbox
               key={webhook.sys.id}
