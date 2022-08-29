@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === "development" && window.self === window.top) {
     //   }
     // );
 
-    console.log(sdk);
+    // console.log(sdk);
 
     const cma = createClient({
       // This is the access token for this space. Normally you get the token in the Contentful web app
