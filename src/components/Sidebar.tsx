@@ -67,7 +67,19 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
         .getSpace(sdk.ids.space)
         .then((space) => space.getWebhooks())
         .then((response) => {
-          setWebhooks(response.items);
+          const sortedWebhooks = response.items.sort((webhookA, webhookB) => {
+            const regexPattern = /Production|Staging|Preview/i;
+            const webhookAEnv = webhookA.name.match(regexPattern)?.[0];
+            const webhookBEnv = webhookB.name.match(regexPattern)?.[0];
+
+            if (webhookAEnv && webhookBEnv) {
+              return webhookAEnv.localeCompare(webhookBEnv);
+            }
+
+            return 0;
+          });
+
+          setWebhooks(sortedWebhooks);
         })
         .catch(console.error);
     })();
