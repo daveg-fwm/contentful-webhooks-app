@@ -64,7 +64,7 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
   }, [sdk.window]);
 
   useEffect(() => {
-    (async () => {
+    (() => {
       cma
         .getSpace(sdk.ids.space)
         .then((space) => space.getWebhooks())
@@ -96,9 +96,8 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
             const previewUrl = webhook.transformation?.body;
 
             return (
-              <Flex gap="spacingS">
+              <Flex key={webhook.sys.id} gap="spacingS">
                 <Checkbox
-                  key={webhook.sys.id}
                   id={webhook.sys.id}
                   isDisabled={!webhook.active}
                   onChange={(e) => handleChange(e, webhook)}
