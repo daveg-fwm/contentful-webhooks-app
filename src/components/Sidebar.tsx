@@ -6,6 +6,8 @@ import {
   Checkbox,
   Button,
   Notification,
+  TextLink,
+  Flex,
 } from "@contentful/f36-components";
 import { SidebarExtensionSDK } from "@contentful/app-sdk";
 
@@ -90,16 +92,32 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
       <FormControl as="fieldset">
         <Paragraph>Select the webhooks to trigger builds:</Paragraph>
         <Checkbox.Group>
-          {webhooks.map((webhook) => (
-            <Checkbox
-              key={webhook.sys.id}
-              id={webhook.sys.id}
-              isDisabled={!webhook.active}
-              onChange={(e) => handleChange(e, webhook)}
-            >
-              {webhook.name}
-            </Checkbox>
-          ))}
+          {webhooks.map((webhook) => {
+            const previewUrl = webhook.transformation?.body;
+
+            return (
+              <Flex gap="spacingS">
+                <Checkbox
+                  key={webhook.sys.id}
+                  id={webhook.sys.id}
+                  isDisabled={!webhook.active}
+                  onChange={(e) => handleChange(e, webhook)}
+                >
+                  {webhook.name}
+                </Checkbox>
+
+                {previewUrl ? (
+                  <TextLink
+                    href={previewUrl as string}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open site
+                  </TextLink>
+                ) : null}
+              </Flex>
+            );
+          })}
         </Checkbox.Group>
       </FormControl>
       <Button
