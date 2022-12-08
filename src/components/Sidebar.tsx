@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ClientAPI, WebHooks } from "contentful-management";
+import { PlainClientAPI, WebhookProps } from "contentful-management";
 import {
   Paragraph,
   FormControl,
@@ -13,17 +13,17 @@ import { SidebarExtensionSDK } from "@contentful/app-sdk";
 
 interface SidebarProps {
   sdk: SidebarExtensionSDK;
-  cma: ClientAPI;
+  cma: PlainClientAPI;
 }
 
 const Sidebar = ({ sdk, cma }: SidebarProps) => {
-  const [webhooks, setWebhooks] = useState<WebHooks[]>([]);
-  const [selectedWebhooks, setSelectedWebhooks] = useState<WebHooks[]>([]);
+  const [webhooks, setWebhooks] = useState<WebhookProps[]>([]);
+  const [selectedWebhooks, setSelectedWebhooks] = useState<WebhookProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    webhook: WebHooks
+    webhook: WebhookProps
   ) => {
     const isChecked = e.target.checked;
 
@@ -65,9 +65,8 @@ const Sidebar = ({ sdk, cma }: SidebarProps) => {
 
   useEffect(() => {
     (() => {
-      cma
-        .getSpace(sdk.ids.space)
-        .then((space) => space.getWebhooks())
+      cma.webhook
+        .getMany({ spaceId: sdk.ids.space, query: { limit: 100 } })
         .then((response) => {
           const sortedWebhooks = response.items.sort((webhookA, webhookB) => {
             const regexPattern = /Production|Staging|Preview/i;

@@ -1,13 +1,13 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { AppExtensionSDK } from "@contentful/app-sdk";
-import { ClientAPI } from "contentful-management";
+import { PlainClientAPI } from "contentful-management";
 import { Heading, Form, Paragraph, Flex } from "@contentful/f36-components";
 
 export interface AppInstallationParameters {}
 
 interface ConfigScreenProps {
   sdk: AppExtensionSDK;
-  cma: ClientAPI;
+  cma: PlainClientAPI;
 }
 
 const ConfigScreen = (props: ConfigScreenProps) => {

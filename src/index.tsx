@@ -42,11 +42,16 @@ if (process.env.NODE_ENV === "development" && window.self === window.top) {
 
     // console.log(sdk);
 
-    const cma = createClient({
-      // This is the access token for this space. Normally you get the token in the Contentful web app
-      accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN as string,
-      space: sdk.ids.space,
-    });
+    const cma = createClient(
+      {
+        // This is the access token for this space. Normally you get the token in the Contentful web app
+        accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN as string,
+        space: sdk.ids.space,
+      },
+      {
+        type: "plain",
+      }
+    );
 
     // All possible locations for your app
     // Feel free to remove unused locations
